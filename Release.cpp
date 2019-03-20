@@ -1,0 +1,108 @@
+#include "Bill.h"
+#include<fstream>
+#include<sstream>
+////////////////////////////////////////////Bill
+ void Bill::Save(std::string&cname)
+{
+	setlocale(LC_ALL, "Rus");
+	std::ofstream fout(cname, std::ofstream::app);
+	if (!fout.is_open())
+	{
+		std::cout << "Невозможно открыть файл\n";
+		exit(EXIT_FAILURE);
+	}
+	fout << *this;
+	fout.close();
+	std::ofstream fout_val("Val"+cname, std::ofstream::app);
+	if (!fout_val.is_open())
+	{
+		std::cout << "Невозможно открыть файл\n";
+		exit(EXIT_FAILURE);
+	}
+	fout_val << name << " " << paid << " " << debt << " " << date << std::endl;
+
+}
+void Bill::Read_File(std::string& сname)
+{
+	std::istringstream read(сname);
+	read >> name;
+	read >> paid;
+	read >> debt;
+	read >> date;
+
+}
+//std::ostream& operator>>(std::ifstream& in,Bill & obj)
+void Bill::Create()
+{
+	setlocale(LC_ALL, "Rus");
+	std::cout << "Введите дату: ";
+	std::cin >> date;
+	std::cout << "Введите сумму оплаты: ";
+	std::cin >> paid;
+	std::cout << "Введите остаток долга: ";
+	std::cin >> debt;
+	std::cin.get();
+}
+void Bill::Output()
+{
+	std::cout << *this;
+}
+std::ostream& operator<<(std::ostream& out, const Bill & obj)
+{
+	setlocale(LC_ALL, "Rus");
+	out  << "Счет от " << obj.date << ". За " << obj.name << std::endl
+		 << "Пришло " << obj.paid << std::endl
+		 << "Долг " << obj.debt << std::endl
+		 << "/////////////////////////////////////////////////\n";
+	return out;
+}
+
+////////////////////////////////////////////Electricity_Bill
+void Electricity_Bill::Save(std::string&cname)
+{
+	Bill::Save(cname);
+}
+void Electricity_Bill::Read_File(std::string& сname)
+{
+	Bill::Read_File(сname);
+}
+void Electricity_Bill::Create()
+{
+	Bill::Create();
+}
+void Electricity_Bill::Output()
+{
+	Bill::Output();
+}
+std::ostream& operator<<(std::ostream& out, const Electricity_Bill & obj)
+{
+	setlocale(LC_ALL, "Rus");
+	out << (const Bill&)obj;
+	return out;
+}
+
+////////////////////////////////////////////JKH
+void JKH::Save(std::string&cname)
+{
+	Bill::Save(cname);
+}
+void JKH::Read_File(std::string& сname)
+{
+	Bill::Read_File(сname);
+}
+void JKH::Create()
+{
+	Bill::Create();
+}
+void JKH::Output()
+{
+	Bill::Output();
+}
+std::ostream& operator<<(std::ostream& out, const JKH & obj)
+{
+	setlocale(LC_ALL, "Rus");
+	out << (const Bill&)obj;
+	return out;
+}
+
+
