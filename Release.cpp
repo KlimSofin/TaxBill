@@ -1,4 +1,5 @@
 #include "Bill.h"
+
 #include<fstream>
 #include<sstream>
 ////////////////////////////////////////////Bill
@@ -105,5 +106,4 @@ std::ostream& operator<<(std::ostream& out, const JKH & obj)
 	out << (const Bill&)obj;
 	return out;
 }
-
 

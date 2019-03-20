@@ -1,7 +1,6 @@
 #include "Bill.h"
 #include<vector>
 #include <fstream>
-#include<sstream>
 
 using std::cout;
 using std::cin;
@@ -119,10 +118,51 @@ void File_Input(vector<Bill*>&t, int& count)
 void File_Output(vector<Bill*>&t, int& count)
 {
 	std::string file_name;
+	char check_ch, chose;
 	cin.get();
 	std::cout << "Введите название файла\n"
 		<< ": ";
 	std::getline(std::cin, file_name);
-	for (int i = 0; i < count; i++)
-		t[i]->Save(file_name);
+	std::ifstream f_check(file_name); //Используется для проверки на существование файла
+	std::ofstream clear; //Используется для очистки файлов
+	if (f_check.is_open()) //Проверка на существование 
+	{
+		f_check >> check_ch;
+		if (!f_check.eof()) //Проверка на конец файла, нужна для определения пуст ли файл или нет 
+		{
+
+			f_check.close();
+			std::cout << "В файле есть информация стереть ее или добавить к ней новую?(r/a): ";
+			cin >> chose;
+			switch (chose)
+			{
+			case 'a':case'A':
+				for (int i = 0; i < count; i++)
+					t[i]->Save(file_name);
+				break;
+			case 'r':case'R':
+				clear.open(file_name);
+				clear.close();
+				clear.open("Val" + file_name);
+				clear.close();
+				for (int i = 0; i < count; i++)
+					t[i]->Save(file_name);
+				break;
+			default:
+				std::cout << "Неверный ввод\n Отмена сохранения.";
+				return;
+			}
+		}
+		else //Файл пуст
+		{
+			for (int i = 0; i < count; i++)
+				t[i]->Save(file_name);
+		}
+	}
+	else //Файл не существует
+	{
+		for (int i = 0; i < count; i++)
+			t[i]->Save(file_name);
+	}
+	std::cout << "Сохранено\n";
 }
