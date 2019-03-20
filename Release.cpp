@@ -2,7 +2,7 @@
 #include<fstream>
 #include<sstream>
 ////////////////////////////////////////////Bill
- void Bill::Save(std::string&cname)
+void Bill::Save(std::string&cname)//Сохо\ранение данных в файл
 {
 	setlocale(LC_ALL, "Rus");
 	std::ofstream fout(cname, std::ofstream::app);
@@ -13,7 +13,7 @@
 	}
 	fout << *this;
 	fout.close();
-	std::ofstream fout_val("Val"+cname, std::ofstream::app);
+	std::ofstream fout_val("Val" + cname, std::ofstream::app); //Создание файла из которого в дальнейшим можно считывать информацию
 	if (!fout_val.is_open())
 	{
 		std::cout << "Невозможно открыть файл\n";
@@ -22,7 +22,7 @@
 	fout_val << name << " " << paid << " " << debt << " " << date << std::endl;
 
 }
-void Bill::Read_File(std::string& сname)
+void Bill::Read_File(std::string& сname)//Чтение данных из файла
 {
 	std::istringstream read(сname);
 	read >> name;
@@ -31,8 +31,9 @@ void Bill::Read_File(std::string& сname)
 	read >> date;
 
 }
-//std::ostream& operator>>(std::ifstream& in,Bill & obj)
-void Bill::Create()
+
+
+void Bill::Create() //Добавление файлов с консоли
 {
 	setlocale(LC_ALL, "Rus");
 	std::cout << "Введите дату: ";
@@ -43,17 +44,17 @@ void Bill::Create()
 	std::cin >> debt;
 	std::cin.get();
 }
-void Bill::Output()
+void Bill::Output() //Вывод на консоль
 {
 	std::cout << *this;
 }
 std::ostream& operator<<(std::ostream& out, const Bill & obj)
 {
 	setlocale(LC_ALL, "Rus");
-	out  << "Счет от " << obj.date << ". За " << obj.name << std::endl
-		 << "Пришло " << obj.paid << std::endl
-		 << "Долг " << obj.debt << std::endl
-		 << "/////////////////////////////////////////////////\n";
+	out << "Счет от " << obj.date << ". За " << obj.name << std::endl
+		<< "Пришло " << obj.paid << std::endl
+		<< "Долг " << obj.debt << std::endl
+		<< "/////////////////////////////////////////////////\n";
 	return out;
 }
 
