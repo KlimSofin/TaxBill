@@ -38,7 +38,7 @@ int main()
 				cout << "¬ведите колличество счетов, которое планируетс€ ввести.\n"
 					<< ": ";
 				cin >> input;
-				for (int i = 0; i < input; i++)
+				for (unsigned int i = 0; i < input; i++)
 				{
 					tax.push_back(new Electricity_Bill());
 					tax[count++]->Create();
@@ -48,7 +48,7 @@ int main()
 				cout << "¬ведите колличество счетов, которое планируетс€ ввести.\n"
 					<< ": ";
 				cin >> input;
-				for (int i = 0; i < input; i++)
+				for (unsigned int i = 0; i < input; i++)
 				{
 					tax.push_back(new JKH());
 					tax[count++]->Create();
@@ -57,7 +57,7 @@ int main()
 			}
 			break;
 		case 2://¬вод на консоль
-			for (int i = 0; i < count; i++)
+			for (unsigned int i = 0; i < count; i++)
 				tax[i]->Output();
 			break;
 		case 3://¬вод из файла
@@ -92,7 +92,7 @@ int main()
 			std::cout << "¬ведите название файла\n"
 				<< ": ";
 			std::getline(std::cin, file_name);
-			for (int i = 0; i < count; i++)	
+			for (unsigned int i = 0; i < count; i++)
 				tax[i]->Save(file_name);
 			break;
 		case 100: return 0;
