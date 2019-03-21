@@ -1,4 +1,5 @@
 #include "Bill.h"
+
 #include<vector>
 #include <fstream>
 
@@ -7,7 +8,8 @@ using std::cin;
 using std::vector;
 
 void Console_Input(vector<Bill*>&t, int&);
-void Console_Output(vector<Bill*>&t, int&);
+void Main_Console_Output(vector<Bill*>&t, int&);
+void Type_Console_Output(vector<Bill*>&t, int&);
 void File_Input(vector<Bill*>&t, int&);
 void File_Output(vector<Bill*>&t, int&);
 
@@ -33,7 +35,7 @@ int main()
 			Console_Input(tax, count);
 			break;
 		case 2://Ввод на консоль
-			Console_Output(tax, count);
+			Main_Console_Output(tax, count);
 			break;
 		case 3://Ввод из файла
 			File_Input(tax, count);
@@ -80,10 +82,50 @@ void Console_Input(vector<Bill*>&t, int& count)
 		break;
 	}
 }
-void Console_Output(vector<Bill*>&t, int& count)
+void Main_Console_Output(vector<Bill*>&t, int& count)
 {
-	for (int i = 0; i < count; i++)
-		t[i]->Output();
+	std::cout << " Вывод информции.\n"
+		<< "1. Вывести все.\n"
+		<< "2.Вывод по типу счета.\n";
+	unsigned int chose;
+	cin >> chose;
+	cin.get();
+	switch (chose)
+	{
+	case 1:
+		for (int i = 0; i < count; i++)
+			t[i]->Output();
+		break;
+	case 2:
+		Type_Console_Output(t, count);
+	default:
+		break;
+	}
+
+}
+void Type_Console_Output(vector<Bill*>&t, int&count) //Вывод по типу счета
+{
+	std::cout << "Счета какого типа вывести.\n"
+		<< "1.Электричество.\n"
+		<< "2.ЖКХ.\n";
+	unsigned int chose;
+	cin >> chose;
+	cin.get();
+	switch (chose)
+	{
+	case 1:
+		for (int i = 0; i < count; i++)
+			if (t[i]->name_of_bill() == "Электричество")
+				t[i]->Output();
+		break;
+	case 2:
+		for (int i = 0; i < count; i++)
+			if (t[i]->name_of_bill() == "ЖКХ")
+				t[i]->Output();
+		break;
+	default:
+		break;
+	}
 }
 void File_Input(vector<Bill*>&t, int& count)
 {
