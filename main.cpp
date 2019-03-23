@@ -1,11 +1,11 @@
 #include "Bill.h"
-
 #include<vector>
 #include <fstream>
 
 using std::cout;
 using std::cin;
 using std::vector;
+
 
 void Console_Input(vector<Bill*>&t, int&);
 void Main_Console_Output(vector<Bill*>&t, int&);

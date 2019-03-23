@@ -20,7 +20,7 @@ void Bill::Save(std::string&cname)//Сохо\ранение данных в файл
 		std::cout << "Невозможно открыть файл\n";
 		exit(EXIT_FAILURE);
 	}
-	fout_val << name << " " << paid << " " << debt << " " << date << std::endl;
+	fout_val << name << " " << paid << " " << debt << " " << date.day << " " << date.month << " " << date.year << std::endl;
 
 }
 void Bill::Read_File(std::string& сname)//Чтение данных из файла
@@ -29,15 +29,16 @@ void Bill::Read_File(std::string& сname)//Чтение данных из файла
 	read >> name;
 	read >> paid;
 	read >> debt;
-	read >> date;
+	read >> date.day;
+	read >> date.month;
+	read >> date.year;
 
 }
-
 
 void Bill::Create() //Добавление файлов с консоли
 {
 	setlocale(LC_ALL, "Rus");
-	std::cout << "Введите дату: ";
+	std::cout << "Введите дату.\n";
 	std::cin >> date;
 	std::cout << "Введите сумму оплаты: ";
 	std::cin >> paid;
