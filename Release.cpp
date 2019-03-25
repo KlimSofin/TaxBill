@@ -1,9 +1,9 @@
 #include "Bill.h"
-
+#include<iostream>
 #include<fstream>
 #include<sstream>
 ////////////////////////////////////////////Bill
-void Bill::Save(std::string&cname)//Сохо\ранение данных в файл
+void Bill::Save(std::string&cname) //Сохо\ранение данных в файл
 {
 	setlocale(LC_ALL, "Rus");
 	std::ofstream fout(cname, std::ofstream::app);
@@ -32,9 +32,7 @@ void Bill::Read_File(std::string& сname)//Чтение данных из файла
 	read >> date.day;
 	read >> date.month;
 	read >> date.year;
-
 }
-
 void Bill::Create() //Добавление файлов с консоли
 {
 	setlocale(LC_ALL, "Rus");
@@ -46,9 +44,34 @@ void Bill::Create() //Добавление файлов с консоли
 	std::cin >> debt;
 	std::cin.get();
 }
-void Bill::Output() //Вывод на консоль
+void Bill::Output()  //Вывод на консоль
 {
 	std::cout << *this;
+}
+void Bill::Change()
+{
+	std::cout << "Какой параметр желаете изменить?\n"
+		<< "1.Дата.\n"
+		<< "2.Сумма оплаты\n"
+		<< "3.Долг\n";
+	int chose;
+	std::cin >> chose;
+	switch (chose)
+	{
+	case 1:
+		std::cin >> this->date; break;
+	case 2:
+		std::cout << ": ";
+		std::cin >> this->paid; break;
+	case 3:
+		std::cout << ": ";
+		std::cin >> this->debt; break;
+	default:
+		std::cout << "Неверный ввод!\n";
+		break;
+	}
+
+
 }
 std::ostream& operator<<(std::ostream& out, const Bill & obj)
 {
@@ -59,6 +82,7 @@ std::ostream& operator<<(std::ostream& out, const Bill & obj)
 		<< "/////////////////////////////////////////////////\n";
 	return out;
 }
+
 
 ////////////////////////////////////////////Electricity_Bill
 void Electricity_Bill::Save(std::string&cname)
@@ -77,12 +101,17 @@ void Electricity_Bill::Output()
 {
 	Bill::Output();
 }
+void Electricity_Bill::Change()
+{
+	Bill::Change();
+}
 std::ostream& operator<<(std::ostream& out, const Electricity_Bill & obj)
 {
 	setlocale(LC_ALL, "Rus");
 	out << (const Bill&)obj;
 	return out;
 }
+
 
 ////////////////////////////////////////////JKH
 void JKH::Save(std::string&cname)
@@ -100,6 +129,10 @@ void JKH::Create()
 void JKH::Output()
 {
 	Bill::Output();
+}
+void JKH::Change()
+{
+	Bill::Change();
 }
 std::ostream& operator<<(std::ostream& out, const JKH & obj)
 {

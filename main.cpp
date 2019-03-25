@@ -1,22 +1,25 @@
-#include "Bill.h"
+#include "Bill_t.h"
 #include<vector>
 #include <fstream>
-
+#include <string>
 using std::cout;
 using std::cin;
 using std::vector;
 
 
-void Console_Input(vector<Bill*>&t, int&);
-void Main_Console_Output(vector<Bill*>&t, int&);
-void Type_Console_Output(vector<Bill*>&t, int&);
-void File_Input(vector<Bill*>&t, int&);
-void File_Output(vector<Bill*>&t, int&);
+void Console_Input(vector<Bill*>&t);
+void Main_Console_Output(vector<Bill*>&t);
+void Type_Console_Output(vector<Bill*>&t);
+void File_Input(vector<Bill*>&t);
+void File_Output(vector<Bill*>&t);
+bool Change_By_Date(vector<Bill*>&t);
+bool Clear(vector<Bill*>&t);
+int count = 0;
 
 int main()
 {
 	vector<Bill*>tax;
-	int input, count = 0;
+	int input;
 	while (true)
 	{
 		setlocale(LC_ALL, "Rus");
@@ -25,6 +28,7 @@ int main()
 			<< "2.Вывод на  консоль.\n"
 			<< "3.Ввод из  файла.\n"
 			<< "4.Вывод в  файл.\n"
+			<< "5.Изменение по дате\n"
 			<< "100.Выход.\n"
 			<< ": ";
 
@@ -32,16 +36,22 @@ int main()
 		switch (input) //Начало отработки меню
 		{
 		case 1://Ввод с консоли
-			Console_Input(tax, count);
+			Console_Input(tax);
 			break;
 		case 2://Ввод на консоль
-			Main_Console_Output(tax, count);
+			Main_Console_Output(tax);
 			break;
 		case 3://Ввод из файла
-			File_Input(tax, count);
+			File_Input(tax);
 			break;
 		case 4://Вывод в файл
-			File_Output(tax, count);
+			File_Output(tax);
+			break;
+		case 5://Изменение по дате
+			if (Change_By_Date(tax))
+				std::cout << "Успешно изменено.\n";
+			else
+				std::cout << "Не найденою.\n";
 			break;
 		case 100: return 0;
 		default:return 0;
@@ -51,7 +61,7 @@ int main()
 	}
 }
 
-void Console_Input(vector<Bill*>&t, int& count)
+void Console_Input(vector<Bill*>&t)
 {
 	char type_of_bill;
 	int quantity;
@@ -82,11 +92,12 @@ void Console_Input(vector<Bill*>&t, int& count)
 		break;
 	}
 }
-void Main_Console_Output(vector<Bill*>&t, int& count)
+void Main_Console_Output(vector<Bill*>&t)
 {
 	std::cout << " Вывод информции.\n"
-		<< "1. Вывести все.\n"
-		<< "2.Вывод по типу счета.\n";
+		<< "1.Вывести все.\n"
+		<< "2.Вывод по типу счета.\n"
+		<< ": ";
 	unsigned int chose;
 	cin >> chose;
 	cin.get();
@@ -97,17 +108,18 @@ void Main_Console_Output(vector<Bill*>&t, int& count)
 			t[i]->Output();
 		break;
 	case 2:
-		Type_Console_Output(t, count);
+		Type_Console_Output(t);
 	default:
 		break;
 	}
 
 }
-void Type_Console_Output(vector<Bill*>&t, int&count) //Вывод по типу счета
+void Type_Console_Output(vector<Bill*>&t) //Вывод по типу счета
 {
 	std::cout << "Счета какого типа вывести.\n"
 		<< "1.Электричество.\n"
-		<< "2.ЖКХ.\n";
+		<< "2.ЖКХ.\n"
+		<< ": ";
 	unsigned int chose;
 	cin >> chose;
 	cin.get();
@@ -127,7 +139,7 @@ void Type_Console_Output(vector<Bill*>&t, int&count) //Вывод по типу счета
 		break;
 	}
 }
-void File_Input(vector<Bill*>&t, int& count)
+void File_Input(vector<Bill*>&t)
 {
 	std::string file_name, read_line; //Переменные для имени файла и строки
 	std::ifstream fin;
@@ -157,7 +169,7 @@ void File_Input(vector<Bill*>&t, int& count)
 	}
 	cout << "Считано\n";
 }
-void File_Output(vector<Bill*>&t, int& count)
+void File_Output(vector<Bill*>&t)
 {
 	std::string file_name;
 	char check_ch, chose;
@@ -207,4 +219,19 @@ void File_Output(vector<Bill*>&t, int& count)
 			t[i]->Save(file_name);
 	}
 	std::cout << "Сохранено\n";
+}
+bool Change_By_Date(vector<Bill*>&t)
+{
+	std::cout << "Введите дату счета, который хотите изменить";
+	Bill::Date check_date;
+	cin >> check_date;
+	for (auto &i : t)
+	{
+		if (i->date == check_date)
+		{
+			i->Change();
+			return true;
+		}
+	}
+	return false;
 }
