@@ -53,7 +53,8 @@ void Bill::Change()
 	std::cout << "Какой параметр желаете изменить?\n"
 		<< "1.Дата.\n"
 		<< "2.Сумма оплаты\n"
-		<< "3.Долг\n";
+		<< "3.Долг\n"
+		<< "4.Все\n";
 	int chose;
 	std::cin >> chose;
 	switch (chose)
@@ -66,6 +67,14 @@ void Bill::Change()
 	case 3:
 		std::cout << ": ";
 		std::cin >> this->debt; break;
+	case 4:
+		std::cout << ": ";
+		std::cin >> this->date;
+		std::cout << "Сумма оплаты: ";
+		std::cin >> this->paid;
+		std::cout << "Сумма долга: ";
+		std::cin >> this->debt;
+		break;
 	default:
 		std::cout << "Неверный ввод!\n";
 		break;

@@ -1,4 +1,4 @@
-#include "Bill_t.h"
+#include "Bill.h"
 #include<vector>
 #include <fstream>
 #include <string>
@@ -7,13 +7,14 @@ using std::cin;
 using std::vector;
 
 
-void Console_Input(vector<Bill*>&t);
-void Main_Console_Output(vector<Bill*>&t);
-void Type_Console_Output(vector<Bill*>&t);
-void File_Input(vector<Bill*>&t);
-void File_Output(vector<Bill*>&t);
-bool Change_By_Date(vector<Bill*>&t);
-bool Clear(vector<Bill*>&t);
+void Console_Input(vector<Bill*>&t); //Консольный Ввод
+void Main_Console_Output(vector<Bill*>&t);//Консольный Вывод
+void Type_Console_Output(vector<Bill*>&t);//Вывод на консоль по типу данных
+void File_Input(vector<Bill*>&t);//Ввод из файла
+void File_Output(vector<Bill*>&t);//Сохранение в файл
+void Exit(vector<Bill*>&t);//Выход из приложения
+bool Change_By_Date(vector<Bill*>&t);//Изминение данных по дате
+void Clear(vector<Bill*>&t);// Очистка
 int count = 0;
 
 int main()
@@ -51,14 +52,17 @@ int main()
 			if (Change_By_Date(tax))
 				std::cout << "Успешно изменено.\n";
 			else
-				std::cout << "Не найденою.\n";
+				std::cout << "Не изменено.\n";
 			break;
-		case 100: return 0;
-		default:return 0;
+		case 100:
+			Exit(tax);
+			return 0;
+		default:
+			std::cout << "Выбран неверный номер.\n";
 			break;
 		}
-
 	}
+	return 0;
 }
 
 void Console_Input(vector<Bill*>&t)
@@ -98,12 +102,13 @@ void Main_Console_Output(vector<Bill*>&t)
 		<< "1.Вывести все.\n"
 		<< "2.Вывод по типу счета.\n"
 		<< ": ";
-	unsigned int chose;
+	int chose;
 	cin >> chose;
 	cin.get();
 	switch (chose)
 	{
 	case 1:
+
 		for (int i = 0; i < count; i++)
 			t[i]->Output();
 		break;
@@ -222,16 +227,93 @@ void File_Output(vector<Bill*>&t)
 }
 bool Change_By_Date(vector<Bill*>&t)
 {
-	std::cout << "Введите дату счета, который хотите изменить";
+
 	Bill::Date check_date;
+	int chose;
+	char type_of_bill;
+	auto ptr = t.begin();
+	std::cout << "Что вы хотети изменить?\n"
+		<< "1.Данные счета(дата,сумма оплаты,задолженность)\n"
+		<< "2.Тип счета\n"
+		<< "3.Удалить счет\n"
+		<< ": ";
+	cin >> chose;
+	std::cout << "Введите дату счета, который хотите изменить\n";
 	cin >> check_date;
-	for (auto &i : t)
+	cin.get();
+	for (; ptr != t.end(); ptr++)
+		if ((*ptr)->date == check_date)
+			break;
+	if (ptr == t.end())
+		return false;
+
+	switch (chose)
 	{
-		if (i->date == check_date)
+	case 1:
+		(*ptr)->Change();
+		return true;
+	case 2:
+		cout << "Введите тип налога e - эллектричество j - ЖКХ.\n"
+			<< ": ";
+		cin >> type_of_bill;
+		while (true)
 		{
-			i->Change();
-			return true;
+
+			switch (type_of_bill)
+			{
+			case 'e':case'E':
+				delete (*ptr);
+				(*ptr) = new Electricity_Bill();
+				(*ptr)->Create();
+				return true;
+			case 'j':case'J':
+				delete (*ptr);
+				(*ptr) = new JKH();
+				(*ptr)->Create();
+				return true;
+			default:
+				std::cout << "Неверный ввод\n";
+				break;
+			}
 		}
+	case 3:
+		delete (*ptr);
+		t.erase(ptr);
+		count--;
+		return true;
+	default:
+		std::cout << "Неверный ввод, возврат в меню.\n";
+		break;
 	}
 	return false;
+}
+void Clear(vector<Bill*>&t)
+{
+	for (auto &i : t)
+		delete i;
+}
+void Exit(vector<Bill*>&t)
+{
+	char chose;
+	std::cout << "Сохранить следующую информацию в файл?\n";
+	Main_Console_Output(t);
+	while (true)
+	{
+		std::cout << "y/n: ";
+		cin >> chose;
+		switch (chose)
+		{
+		case 'y':case'Y':
+			File_Output(t);
+			Clear(t);
+			return;
+		case 'n':case'N':
+			Clear(t);
+			return;
+		default:
+			std::cout << "Неверный ввод\n";
+			break;
+		}
+
+	}
 }
