@@ -1,4 +1,4 @@
-#include "Bill.h"
+п»ї#include "Bill_m.h"
 #include<vector>
 #include <fstream>
 #include <string>
@@ -7,14 +7,14 @@ using std::cin;
 using std::vector;
 
 
-void Console_Input(vector<Bill*>&t); //Консольный Ввод
-void Main_Console_Output(vector<Bill*>&t);//Консольный Вывод
-void Type_Console_Output(vector<Bill*>&t);//Вывод на консоль по типу данных
-void File_Input(vector<Bill*>&t);//Ввод из файла
-void File_Output(vector<Bill*>&t);//Сохранение в файл
-void Exit(vector<Bill*>&t);//Выход из приложения
-bool Change_By_Date(vector<Bill*>&t);//Изминение данных по дате
-void Clear(vector<Bill*>&t);// Очистка
+void Console_Input(vector<Bill*>&t); //РљРѕРЅСЃРѕР»СЊРЅС‹Р№ Р’РІРѕРґ
+void Main_Console_Output(vector<Bill*>&t);//РљРѕРЅСЃРѕР»СЊРЅС‹Р№ Р’С‹РІРѕРґ
+void Type_Console_Output(vector<Bill*>&t);//Р’С‹РІРѕРґ РЅР° РєРѕРЅСЃРѕР»СЊ РїРѕ С‚РёРїСѓ РґР°РЅРЅС‹С…
+void File_Input(vector<Bill*>&t);//Р’РІРѕРґ РёР· С„Р°Р№Р»Р°
+void File_Output(vector<Bill*>&t);//РЎРѕС…СЂР°РЅРµРЅРёРµ РІ С„Р°Р№Р»
+void Exit(vector<Bill*>&t);//Р’С‹С…РѕРґ РёР· РїСЂРёР»РѕР¶РµРЅРёСЏ
+bool Change_By_Date(vector<Bill*>&t);//РР·РјРёРЅРµРЅРёРµ РґР°РЅРЅС‹С… РїРѕ РґР°С‚Рµ
+void Clear(vector<Bill*>&t);// РћС‡РёСЃС‚РєР°
 int count = 0;
 
 int main()
@@ -24,41 +24,41 @@ int main()
 	while (true)
 	{
 		setlocale(LC_ALL, "Rus");
-		std::cout << "Выберети пункт.\n";
-		std::cout << "1.Ввод с консоли.\n"
-			<< "2.Вывод на  консоль.\n"
-			<< "3.Ввод из  файла.\n"
-			<< "4.Вывод в  файл.\n"
-			<< "5.Изменение по дате\n"
-			<< "100.Выход.\n"
+		std::cout << "Р’С‹Р±РµСЂРµС‚Рё РїСѓРЅРєС‚.\n";
+		std::cout << "1.Р’РІРѕРґ СЃ РєРѕРЅСЃРѕР»Рё.\n"
+			<< "2.Р’С‹РІРѕРґ РЅР°  РєРѕРЅСЃРѕР»СЊ.\n"
+			<< "3.Р’РІРѕРґ РёР·  С„Р°Р№Р»Р°.\n"
+			<< "4.Р’С‹РІРѕРґ РІ  С„Р°Р№Р».\n"
+			<< "5.РР·РјРµРЅРµРЅРёРµ РїРѕ РґР°С‚Рµ\n"
+			<< "100.Р’С‹С…РѕРґ.\n"
 			<< ": ";
 
 		cin >> input;
-		switch (input) //Начало отработки меню
+		switch (input) //РќР°С‡Р°Р»Рѕ РѕС‚СЂР°Р±РѕС‚РєРё РјРµРЅСЋ
 		{
-		case 1://Ввод с консоли
+		case 1://Р’РІРѕРґ СЃ РєРѕРЅСЃРѕР»Рё
 			Console_Input(tax);
 			break;
-		case 2://Ввод на консоль
+		case 2://Р’РІРѕРґ РЅР° РєРѕРЅСЃРѕР»СЊ
 			Main_Console_Output(tax);
 			break;
-		case 3://Ввод из файла
+		case 3://Р’РІРѕРґ РёР· С„Р°Р№Р»Р°
 			File_Input(tax);
 			break;
-		case 4://Вывод в файл
+		case 4://Р’С‹РІРѕРґ РІ С„Р°Р№Р»
 			File_Output(tax);
 			break;
-		case 5://Изменение по дате
+		case 5://РР·РјРµРЅРµРЅРёРµ РїРѕ РґР°С‚Рµ
 			if (Change_By_Date(tax))
-				std::cout << "Успешно изменено.\n";
+				std::cout << "РЈСЃРїРµС€РЅРѕ РёР·РјРµРЅРµРЅРѕ.\n";
 			else
-				std::cout << "Не изменено.\n";
+				std::cout << "РќРµ РёР·РјРµРЅРµРЅРѕ.\n";
 			break;
 		case 100:
 			Exit(tax);
 			return 0;
 		default:
-			std::cout << "Выбран неверный номер.\n";
+			std::cout << "Р’С‹Р±СЂР°РЅ РЅРµРІРµСЂРЅС‹Р№ РЅРѕРјРµСЂ.\n";
 			break;
 		}
 	}
@@ -69,38 +69,38 @@ void Console_Input(vector<Bill*>&t)
 {
 	char type_of_bill;
 	int quantity;
-	cout << "Введите тип налога e - эллектричество j - ЖКХ.\n"
+	cout << "Р’РІРµРґРёС‚Рµ С‚РёРї РЅР°Р»РѕРіР° e - СЌР»Р»РµРєС‚СЂРёС‡РµСЃС‚РІРѕ j - Р–РљРҐ.\n"
 		<< ": ";
 	cin >> type_of_bill;
-	switch (type_of_bill) //Обработка типа налогов
+	switch (type_of_bill) //РћР±СЂР°Р±РѕС‚РєР° С‚РёРїР° РЅР°Р»РѕРіРѕРІ
 	{
 	case 'e':case 'E':
-		cout << "Введите колличество счетов, которое планируется ввести.\n"
+		cout << "Р’РІРµРґРёС‚Рµ РєРѕР»Р»РёС‡РµСЃС‚РІРѕ СЃС‡РµС‚РѕРІ, РєРѕС‚РѕСЂРѕРµ РїР»Р°РЅРёСЂСѓРµС‚СЃСЏ РІРІРµСЃС‚Рё.\n"
 			<< ": ";
 		cin >> quantity;
 		for (int i = 0; i < quantity; i++)
 		{
 			t.push_back(new Electricity_Bill());
-			t[count++]->Create(); //Добавление файлов с консоли
+			t[count++]->Create(); //Р”РѕР±Р°РІР»РµРЅРёРµ С„Р°Р№Р»РѕРІ СЃ РєРѕРЅСЃРѕР»Рё
 		}
 		break;
 	case 'j':case 'J':
-		cout << "Введите колличество счетов, которое планируется ввести.\n"
+		cout << "Р’РІРµРґРёС‚Рµ РєРѕР»Р»РёС‡РµСЃС‚РІРѕ СЃС‡РµС‚РѕРІ, РєРѕС‚РѕСЂРѕРµ РїР»Р°РЅРёСЂСѓРµС‚СЃСЏ РІРІРµСЃС‚Рё.\n"
 			<< ": ";
 		cin >> quantity;
 		for (int i = 0; i < quantity; i++)
 		{
 			t.push_back(new JKH());
-			t[count++]->Create();//Добавление файлов с консоли
+			t[count++]->Create();//Р”РѕР±Р°РІР»РµРЅРёРµ С„Р°Р№Р»РѕРІ СЃ РєРѕРЅСЃРѕР»Рё
 		}
 		break;
 	}
 }
 void Main_Console_Output(vector<Bill*>&t)
 {
-	std::cout << " Вывод информции.\n"
-		<< "1.Вывести все.\n"
-		<< "2.Вывод по типу счета.\n"
+	std::cout << " Р’С‹РІРѕРґ РёРЅС„РѕСЂРјС†РёРё.\n"
+		<< "1.Р’С‹РІРµСЃС‚Рё РІСЃРµ.\n"
+		<< "2.Р’С‹РІРѕРґ РїРѕ С‚РёРїСѓ СЃС‡РµС‚Р°.\n"
 		<< ": ";
 	int chose;
 	cin >> chose;
@@ -119,11 +119,11 @@ void Main_Console_Output(vector<Bill*>&t)
 	}
 
 }
-void Type_Console_Output(vector<Bill*>&t) //Вывод по типу счета
+void Type_Console_Output(vector<Bill*>&t) //Р’С‹РІРѕРґ РїРѕ С‚РёРїСѓ СЃС‡РµС‚Р°
 {
-	std::cout << "Счета какого типа вывести.\n"
-		<< "1.Электричество.\n"
-		<< "2.ЖКХ.\n"
+	std::cout << "РЎС‡РµС‚Р° РєР°РєРѕРіРѕ С‚РёРїР° РІС‹РІРµСЃС‚Рё.\n"
+		<< "1.Р­Р»РµРєС‚СЂРёС‡РµСЃС‚РІРѕ.\n"
+		<< "2.Р–РљРҐ.\n"
 		<< ": ";
 	unsigned int chose;
 	cin >> chose;
@@ -132,12 +132,12 @@ void Type_Console_Output(vector<Bill*>&t) //Вывод по типу счета
 	{
 	case 1:
 		for (int i = 0; i < count; i++)
-			if (t[i]->name_of_bill() == "Электричество")
+			if (t[i]->name_of_bill() == "Р­Р»РµРєС‚СЂРёС‡РµСЃС‚РІРѕ")
 				t[i]->Output();
 		break;
 	case 2:
 		for (int i = 0; i < count; i++)
-			if (t[i]->name_of_bill() == "ЖКХ")
+			if (t[i]->name_of_bill() == "Р–РљРҐ")
 				t[i]->Output();
 		break;
 	default:
@@ -146,52 +146,52 @@ void Type_Console_Output(vector<Bill*>&t) //Вывод по типу счета
 }
 void File_Input(vector<Bill*>&t)
 {
-	std::string file_name, read_line; //Переменные для имени файла и строки
+	std::string file_name, read_line; //РџРµСЂРµРјРµРЅРЅС‹Рµ РґР»СЏ РёРјРµРЅРё С„Р°Р№Р»Р° Рё СЃС‚СЂРѕРєРё
 	std::ifstream fin;
 	cin.get();
-	std::cout << "Введите название файла\n"
+	std::cout << "Р’РІРµРґРёС‚Рµ РЅР°Р·РІР°РЅРёРµ С„Р°Р№Р»Р°\n"
 		<< ": ";
 	std::getline(std::cin, file_name);
 	fin.open(file_name);
 	if (!fin.is_open())
 	{
-		std::cout << "Невозможно открыть файл\n";
+		std::cout << "РќРµРІРѕР·РјРѕР¶РЅРѕ РѕС‚РєСЂС‹С‚СЊ С„Р°Р№Р»\n";
 		exit(EXIT_FAILURE);
 	}
 	while (getline(fin, read_line))
 	{
 
-		if (read_line[0] == 'Э')
+		if (read_line[0] == 'Р­')
 		{
 			t.push_back(new Electricity_Bill());
 			t[count++]->Read_File(read_line);
 		}
-		else if (read_line[0] == 'Ж')
+		else if (read_line[0] == 'Р–')
 		{
 			t.push_back(new JKH());
 			t[count++]->Read_File(read_line);
 		}
 	}
-	cout << "Считано\n";
+	cout << "РЎС‡РёС‚Р°РЅРѕ\n";
 }
 void File_Output(vector<Bill*>&t)
 {
 	std::string file_name;
 	char check_ch, chose;
 	cin.get();
-	std::cout << "Введите название файла\n"
+	std::cout << "Р’РІРµРґРёС‚Рµ РЅР°Р·РІР°РЅРёРµ С„Р°Р№Р»Р°\n"
 		<< ": ";
 	std::getline(std::cin, file_name);
-	std::ifstream f_check(file_name); //Используется для проверки на существование файла
-	std::ofstream clear; //Используется для очистки файлов
-	if (f_check.is_open()) //Проверка на существование 
+	std::ifstream f_check(file_name); //РСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ РґР»СЏ РїСЂРѕРІРµСЂРєРё РЅР° СЃСѓС‰РµСЃС‚РІРѕРІР°РЅРёРµ С„Р°Р№Р»Р°
+	std::ofstream clear; //РСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ РґР»СЏ РѕС‡РёСЃС‚РєРё С„Р°Р№Р»РѕРІ
+	if (f_check.is_open()) //РџСЂРѕРІРµСЂРєР° РЅР° СЃСѓС‰РµСЃС‚РІРѕРІР°РЅРёРµ 
 	{
 		f_check >> check_ch;
-		if (!f_check.eof()) //Проверка на конец файла, нужна для определения пуст ли файл или нет 
+		if (!f_check.eof()) //РџСЂРѕРІРµСЂРєР° РЅР° РєРѕРЅРµС† С„Р°Р№Р»Р°, РЅСѓР¶РЅР° РґР»СЏ РѕРїСЂРµРґРµР»РµРЅРёСЏ РїСѓСЃС‚ Р»Рё С„Р°Р№Р» РёР»Рё РЅРµС‚ 
 		{
 
 			f_check.close();
-			std::cout << "В файле есть информация стереть ее или добавить к ней новую?(r/a): ";
+			std::cout << "Р’ С„Р°Р№Р»Рµ РµСЃС‚СЊ РёРЅС„РѕСЂРјР°С†РёСЏ СЃС‚РµСЂРµС‚СЊ РµРµ РёР»Рё РґРѕР±Р°РІРёС‚СЊ Рє РЅРµР№ РЅРѕРІСѓСЋ?(r/a): ";
 			cin >> chose;
 			switch (chose)
 			{
@@ -208,22 +208,22 @@ void File_Output(vector<Bill*>&t)
 					t[i]->Save(file_name);
 				break;
 			default:
-				std::cout << "Неверный ввод\n Отмена сохранения.";
+				std::cout << "РќРµРІРµСЂРЅС‹Р№ РІРІРѕРґ\n РћС‚РјРµРЅР° СЃРѕС…СЂР°РЅРµРЅРёСЏ.";
 				return;
 			}
 		}
-		else //Файл пуст
+		else //Р¤Р°Р№Р» РїСѓСЃС‚
 		{
 			for (int i = 0; i < count; i++)
 				t[i]->Save(file_name);
 		}
 	}
-	else //Файл не существует
+	else //Р¤Р°Р№Р» РЅРµ СЃСѓС‰РµСЃС‚РІСѓРµС‚
 	{
 		for (int i = 0; i < count; i++)
 			t[i]->Save(file_name);
 	}
-	std::cout << "Сохранено\n";
+	std::cout << "РЎРѕС…СЂР°РЅРµРЅРѕ\n";
 }
 bool Change_By_Date(vector<Bill*>&t)
 {
@@ -231,18 +231,18 @@ bool Change_By_Date(vector<Bill*>&t)
 	Bill::Date check_date;
 	int chose;
 	char type_of_bill;
-	auto ptr = t.begin(); // Указатель на перый элемент вектора
-	std::cout << "Что вы хотите изменить?\n"
-		<< "1.Данные счета(дата,сумма оплаты,задолженность)\n"
-		<< "2.Тип счета\n"
-		<< "3.Удалить счет\n"
+	auto ptr = t.begin(); // РЈРєР°Р·Р°С‚РµР»СЊ РЅР° РїРµСЂС‹Р№ СЌР»РµРјРµРЅС‚ РІРµРєС‚РѕСЂР°
+	std::cout << "Р§С‚Рѕ РІС‹ С…РѕС‚РёС‚Рµ РёР·РјРµРЅРёС‚СЊ?\n"
+		<< "1.Р”Р°РЅРЅС‹Рµ СЃС‡РµС‚Р°(РґР°С‚Р°,СЃСѓРјРјР° РѕРїР»Р°С‚С‹,Р·Р°РґРѕР»Р¶РµРЅРЅРѕСЃС‚СЊ)\n"
+		<< "2.РўРёРї СЃС‡РµС‚Р°\n"
+		<< "3.РЈРґР°Р»РёС‚СЊ СЃС‡РµС‚\n"
 		<< ": ";
 	cin >> chose;
-	std::cout << "Введите дату счета, который хотите изменить\n";
+	std::cout << "Р’РІРµРґРёС‚Рµ РґР°С‚Сѓ СЃС‡РµС‚Р°, РєРѕС‚РѕСЂС‹Р№ С…РѕС‚РёС‚Рµ РёР·РјРµРЅРёС‚СЊ\n";
 	cin >> check_date;
 	cin.get();
 	for (; ptr != t.end(); ptr++)
-		if ((*ptr)->date == check_date)// определяем нужный нам счет
+		if ((*ptr)->date == check_date)// РѕРїСЂРµРґРµР»СЏРµРј РЅСѓР¶РЅС‹Р№ РЅР°Рј СЃС‡РµС‚
 			break;
 	if (ptr == t.end())
 		return false;
@@ -253,7 +253,7 @@ bool Change_By_Date(vector<Bill*>&t)
 		(*ptr)->Change();
 		return true;
 	case 2:
-		cout << "Введите тип налога e - эллектричество j - ЖКХ.\n"
+		cout << "Р’РІРµРґРёС‚Рµ С‚РёРї РЅР°Р»РѕРіР° e - СЌР»Р»РµРєС‚СЂРёС‡РµСЃС‚РІРѕ j - Р–РљРҐ.\n"
 			<< ": ";
 		cin >> type_of_bill;
 		while (true)
@@ -272,7 +272,7 @@ bool Change_By_Date(vector<Bill*>&t)
 				(*ptr)->Create();
 				return true;
 			default:
-				std::cout << "Неверный ввод\n";
+				std::cout << "РќРµРІРµСЂРЅС‹Р№ РІРІРѕРґ\n";
 				break;
 			}
 		}
@@ -282,7 +282,7 @@ bool Change_By_Date(vector<Bill*>&t)
 		count--;
 		return true;
 	default:
-		std::cout << "Неверный ввод, возврат в меню.\n";
+		std::cout << "РќРµРІРµСЂРЅС‹Р№ РІРІРѕРґ, РІРѕР·РІСЂР°С‚ РІ РјРµРЅСЋ.\n";
 		break;
 	}
 	return false;
@@ -295,7 +295,7 @@ void Clear(vector<Bill*>&t)
 void Exit(vector<Bill*>&t)
 {
 	char chose;
-	std::cout << "Сохранить следующую информацию в файл?\n";
+	std::cout << "РЎРѕС…СЂР°РЅРёС‚СЊ СЃР»РµРґСѓСЋС‰СѓСЋ РёРЅС„РѕСЂРјР°С†РёСЋ РІ С„Р°Р№Р»?\n";
 	Main_Console_Output(t);
 	while (true)
 	{
@@ -311,7 +311,7 @@ void Exit(vector<Bill*>&t)
 			Clear(t);
 			return;
 		default:
-			std::cout << "Неверный ввод\n";
+			std::cout << "РќРµРІРµСЂРЅС‹Р№ РІРІРѕРґ\n";
 			break;
 		}
 

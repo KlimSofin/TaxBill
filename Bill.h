@@ -1,4 +1,4 @@
-#ifndef TAXBILL_H_
+ï»¿#ifndef TAXBILL_H_
 #define TAXBILL_H_
 
 #include<string>
@@ -22,25 +22,25 @@ public:
 		friend std::istream& operator>>(std::istream& in, Date& obj) {
 			while (true)
 			{
-				std::cout << "Äåíü: ";
+				std::cout << "Ð”ÐµÐ½ÑŒ: ";
 				in >> obj.day;
 				if (obj.day < 0 || obj.day>31)
 				{
-					std::cout << "Íåâåðíàÿ äàòà\n";
+					std::cout << "ÐÐµÐ²ÐµÑ€Ð½Ð°Ñ Ð´Ð°Ñ‚Ð°\n";
 					continue;
 				}
-				std::cout << "Ìåñÿö: ";
+				std::cout << "ÐœÐµÑÑÑ†: ";
 				in >> obj.month;
 				if (obj.month < 0 || obj.month>12)
 				{
-					std::cout << "Íåâåðíàÿ äàòà\n";
+					std::cout << "ÐÐµÐ²ÐµÑ€Ð½Ð°Ñ Ð´Ð°Ñ‚Ð°\n";
 					continue;
 				}
-				std::cout << "Ãîä: ";
+				std::cout << "Ð“Ð¾Ð´: ";
 				in >> obj.year;
 				if (obj.year < 1900 || obj.year>3000)
 				{
-					std::cout << "Íåâåðíàÿ äàòà\n";
+					std::cout << "ÐÐµÐ²ÐµÑ€Ð½Ð°Ñ Ð´Ð°Ñ‚Ð°\n";
 					continue;
 				}
 				break;
@@ -53,18 +53,18 @@ public:
 	Bill(double cpaid = 0.0, double cdebt = 0.0, const Date& cdate = Date(), const string& cname = "No name") :name(cname), paid(cpaid), debt(cdebt), date(cdate) {}
 	friend std::ostream& operator<<(std::ostream& out, const Bill &);
 	string  name_of_bill() { return name; }
-	virtual void Save(std::string&) = 0; //Ñîõðàíåíèå â ôàéë
-	virtual void Read_File(std::string&) = 0;//×òåíèå èç ôàéëà
-	virtual void Create() = 0; //Ñîçäàíèå íàëîãà ñ êîíñîëè
-	virtual void Output() = 0; //Âûâîä íà êîíñîëü
-	virtual void Change() = 0; //Èçìåíåíèå ñ êîíñîëè
+	virtual void Save(std::string&) = 0; //Ð¡Ð¾Ñ…Ñ€Ð°Ð½ÐµÐ½Ð¸Ðµ Ð² Ñ„Ð°Ð¹Ð»
+	virtual void Read_File(std::string&) = 0;//Ð§Ñ‚ÐµÐ½Ð¸Ðµ Ð¸Ð· Ñ„Ð°Ð¹Ð»Ð°
+	virtual void Create() = 0; //Ð¡Ð¾Ð·Ð´Ð°Ð½Ð¸Ðµ Ð½Ð°Ð»Ð¾Ð³Ð° Ñ ÐºÐ¾Ð½ÑÐ¾Ð»Ð¸
+	virtual void Output() = 0; //Ð’Ñ‹Ð²Ð¾Ð´ Ð½Ð° ÐºÐ¾Ð½ÑÐ¾Ð»ÑŒ
+	virtual void Change() = 0; //Ð˜Ð·Ð¼ÐµÐ½ÐµÐ½Ð¸Ðµ Ñ ÐºÐ¾Ð½ÑÐ¾Ð»Ð¸
 	virtual ~Bill() {}
 };
 
 class Electricity_Bill :public Bill
 {
 public:
-	Electricity_Bill(double epaid = 0.0, double edebt = 0.0, const Date& edate = Date()) :Bill(epaid, edebt, edate, "Ýëåêòðè÷åñòâî") {}
+	Electricity_Bill(double epaid = 0.0, double edebt = 0.0, const Date& edate = Date()) :Bill(epaid, edebt, edate, "Ð­Ð»ÐµÐºÑ‚Ñ€Ð¸Ñ‡ÐµÑÑ‚Ð²Ð¾") {}
 	friend std::ostream& operator<<(std::ostream& out, const Electricity_Bill & obj);
 	void Save(std::string&);
 	void Read_File(std::string&);
@@ -77,7 +77,7 @@ public:
 class JKH :public Bill
 {
 public:
-	JKH(double jpaid = 0.0, double jdebt = 0.0, const Date& jdate = Date()) :Bill(jpaid, jdebt, jdate, "ÆÊÕ") {}
+	JKH(double jpaid = 0.0, double jdebt = 0.0, const Date& jdate = Date()) :Bill(jpaid, jdebt, jdate, "Ð–ÐšÐ¥") {}
 	friend std::ostream& operator<<(std::ostream& out, const JKH & obj);
 	void Save(std::string&);
 	void Read_File(std::string&);

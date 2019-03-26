@@ -1,31 +1,31 @@
-#include "Bill.h"
+п»ї#include "Bill.h"
 #include<iostream>
 #include<fstream>
 #include<sstream>
 ////////////////////////////////////////////Bill
-void Bill::Save(std::string&cname) //Сохо\ранение данных в файл
+void Bill::Save(std::string&cname) //РЎРѕС…Рѕ\СЂР°РЅРµРЅРёРµ РґР°РЅРЅС‹С… РІ С„Р°Р№Р»
 {
 	setlocale(LC_ALL, "Rus");
 	std::ofstream fout(cname, std::ofstream::app);
 	if (!fout.is_open())
 	{
-		std::cout << "Невозможно открыть файл\n";
+		std::cout << "РќРµРІРѕР·РјРѕР¶РЅРѕ РѕС‚РєСЂС‹С‚СЊ С„Р°Р№Р»\n";
 		exit(EXIT_FAILURE);
 	}
 	fout << *this;
 	fout.close();
-	std::ofstream fout_val("Val" + cname, std::ofstream::app); //Создание файла из которого в дальнейшим можно считывать информацию
+	std::ofstream fout_val("Val" + cname, std::ofstream::app); //РЎРѕР·РґР°РЅРёРµ С„Р°Р№Р»Р° РёР· РєРѕС‚РѕСЂРѕРіРѕ РІ РґР°Р»СЊРЅРµР№С€РёРј РјРѕР¶РЅРѕ СЃС‡РёС‚С‹РІР°С‚СЊ РёРЅС„РѕСЂРјР°С†РёСЋ
 	if (!fout_val.is_open())
 	{
-		std::cout << "Невозможно открыть файл\n";
+		std::cout << "РќРµРІРѕР·РјРѕР¶РЅРѕ РѕС‚РєСЂС‹С‚СЊ С„Р°Р№Р»\n";
 		exit(EXIT_FAILURE);
 	}
 	fout_val << name << " " << paid << " " << debt << " " << date.day << " " << date.month << " " << date.year << std::endl;
 
 }
-void Bill::Read_File(std::string& сname)//Чтение данных из файла
+void Bill::Read_File(std::string& СЃname)//Р§С‚РµРЅРёРµ РґР°РЅРЅС‹С… РёР· С„Р°Р№Р»Р°
 {
-	std::istringstream read(сname);
+	std::istringstream read(СЃname);
 	read >> name;
 	read >> paid;
 	read >> debt;
@@ -33,28 +33,28 @@ void Bill::Read_File(std::string& сname)//Чтение данных из файла
 	read >> date.month;
 	read >> date.year;
 }
-void Bill::Create() //Добавление файлов с консоли
+void Bill::Create() //Р”РѕР±Р°РІР»РµРЅРёРµ С„Р°Р№Р»РѕРІ СЃ РєРѕРЅСЃРѕР»Рё
 {
 	setlocale(LC_ALL, "Rus");
-	std::cout << "Введите дату.\n";
+	std::cout << "Р’РІРµРґРёС‚Рµ РґР°С‚Сѓ.\n";
 	std::cin >> date;
-	std::cout << "Введите сумму оплаты: ";
+	std::cout << "Р’РІРµРґРёС‚Рµ СЃСѓРјРјСѓ РѕРїР»Р°С‚С‹: ";
 	std::cin >> paid;
-	std::cout << "Введите остаток долга: ";
+	std::cout << "Р’РІРµРґРёС‚Рµ РѕСЃС‚Р°С‚РѕРє РґРѕР»РіР°: ";
 	std::cin >> debt;
 	std::cin.get();
 }
-void Bill::Output()  //Вывод на консоль
+void Bill::Output()  //Р’С‹РІРѕРґ РЅР° РєРѕРЅСЃРѕР»СЊ
 {
 	std::cout << *this;
 }
 void Bill::Change()
 {
-	std::cout << "Какой параметр желаете изменить?\n"
-		<< "1.Дата.\n"
-		<< "2.Сумма оплаты\n"
-		<< "3.Долг\n"
-		<< "4.Все\n";
+	std::cout << "РљР°РєРѕР№ РїР°СЂР°РјРµС‚СЂ Р¶РµР»Р°РµС‚Рµ РёР·РјРµРЅРёС‚СЊ?\n"
+		<< "1.Р”Р°С‚Р°.\n"
+		<< "2.РЎСѓРјРјР° РѕРїР»Р°С‚С‹\n"
+		<< "3.Р”РѕР»Рі\n"
+		<< "4.Р’СЃРµ\n";
 	int chose;
 	std::cin >> chose;
 	switch (chose)
@@ -70,13 +70,13 @@ void Bill::Change()
 	case 4:
 		std::cout << ": ";
 		std::cin >> this->date;
-		std::cout << "Сумма оплаты: ";
+		std::cout << "РЎСѓРјРјР° РѕРїР»Р°С‚С‹: ";
 		std::cin >> this->paid;
-		std::cout << "Сумма долга: ";
+		std::cout << "РЎСѓРјРјР° РґРѕР»РіР°: ";
 		std::cin >> this->debt;
 		break;
 	default:
-		std::cout << "Неверный ввод!\n";
+		std::cout << "РќРµРІРµСЂРЅС‹Р№ РІРІРѕРґ!\n";
 		break;
 	}
 
@@ -85,9 +85,9 @@ void Bill::Change()
 std::ostream& operator<<(std::ostream& out, const Bill & obj)
 {
 	setlocale(LC_ALL, "Rus");
-	out << "Счет от " << obj.date << ". За " << obj.name << std::endl
-		<< "Пришло " << obj.paid << std::endl
-		<< "Долг " << obj.debt << std::endl
+	out << "РЎС‡РµС‚ РѕС‚ " << obj.date << ". Р—Р° " << obj.name << std::endl
+		<< "РџСЂРёС€Р»Рѕ " << obj.paid << std::endl
+		<< "Р”РѕР»Рі " << obj.debt << std::endl
 		<< "/////////////////////////////////////////////////\n";
 	return out;
 }
@@ -98,9 +98,9 @@ void Electricity_Bill::Save(std::string&cname)
 {
 	Bill::Save(cname);
 }
-void Electricity_Bill::Read_File(std::string& сname)
+void Electricity_Bill::Read_File(std::string& СЃname)
 {
-	Bill::Read_File(сname);
+	Bill::Read_File(СЃname);
 }
 void Electricity_Bill::Create()
 {
@@ -127,9 +127,9 @@ void JKH::Save(std::string&cname)
 {
 	Bill::Save(cname);
 }
-void JKH::Read_File(std::string& сname)
+void JKH::Read_File(std::string& СЃname)
 {
-	Bill::Read_File(сname);
+	Bill::Read_File(СЃname);
 }
 void JKH::Create()
 {
