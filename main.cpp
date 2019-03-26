@@ -231,8 +231,8 @@ bool Change_By_Date(vector<Bill*>&t)
 	Bill::Date check_date;
 	int chose;
 	char type_of_bill;
-	auto ptr = t.begin();
-	std::cout << "Что вы хотети изменить?\n"
+	auto ptr = t.begin(); // Указатель на перый элемент вектора
+	std::cout << "Что вы хотите изменить?\n"
 		<< "1.Данные счета(дата,сумма оплаты,задолженность)\n"
 		<< "2.Тип счета\n"
 		<< "3.Удалить счет\n"
@@ -242,7 +242,7 @@ bool Change_By_Date(vector<Bill*>&t)
 	cin >> check_date;
 	cin.get();
 	for (; ptr != t.end(); ptr++)
-		if ((*ptr)->date == check_date)
+		if ((*ptr)->date == check_date)// определяем нужный нам счет
 			break;
 	if (ptr == t.end())
 		return false;
