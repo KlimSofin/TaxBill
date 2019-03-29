@@ -19,7 +19,8 @@ public:
 		int month;
 		int year;
 		Date(const string &cr_date = "0.0.0", int cday = 0, int cmonth = 0, int cyear = 0) :day(cday), month(cmonth), year(cyear) {}
-		friend std::istream& operator>>(std::istream& in, Date& obj) {
+		friend std::istream& operator>>(std::istream& in, Date& obj)
+		{
 			while (true)
 			{
 				std::cout << "День: ";
@@ -48,7 +49,18 @@ public:
 			return in;
 		}
 		friend std::ostream& operator<<(std::ostream& out, const Date & obj) { out << ((obj.day < 10) ? "0" : "") << obj.day << ":" << ((obj.month < 10) ? "0" : "") << obj.month << ":" << obj.year; return out; }
-		friend  bool operator==(const Date & obj_one, const Date & obj_two) { return (obj_one.day == obj_two.day && obj_one.month == obj_two.month && obj_one.year == obj_two.year); }
+		friend bool operator==(const Date & obj_one, const Date & obj_two) { return (obj_one.day == obj_two.day && obj_one.month == obj_two.month && obj_one.year == obj_two.year); }
+		friend bool operator<(const Date & obj_one, const Date & obj_two)
+		{
+			if (obj_one.year != obj_two.year)
+				return obj_one.year < obj_two.year;
+			else if (obj_one.month != obj_two.month)
+				return obj_one.month < obj_two.month;
+			else if (obj_one.day != obj_two.day)
+				return obj_one.day < obj_two.day;
+			return false;
+
+		}
 	} date;
 	Bill(double cpaid = 0.0, double cdebt = 0.0, const Date& cdate = Date(), const string& cname = "No name") :name(cname), paid(cpaid), debt(cdebt), date(cdate) {}
 	friend std::ostream& operator<<(std::ostream& out, const Bill &);

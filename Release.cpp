@@ -91,8 +91,6 @@ std::ostream& operator<<(std::ostream& out, const Bill & obj)
 		<< "/////////////////////////////////////////////////\n";
 	return out;
 }
-
-
 ////////////////////////////////////////////Electricity_Bill
 void Electricity_Bill::Save(std::string&cname)
 {
@@ -120,8 +118,6 @@ std::ostream& operator<<(std::ostream& out, const Electricity_Bill & obj)
 	out << (const Bill&)obj;
 	return out;
 }
-
-
 ////////////////////////////////////////////JKH
 void JKH::Save(std::string&cname)
 {
@@ -149,4 +145,7 @@ std::ostream& operator<<(std::ostream& out, const JKH & obj)
 	out << (const Bill&)obj;
 	return out;
 }
+////////////////////////////////////////////
+
+
 

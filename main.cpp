@@ -1,4 +1,4 @@
-﻿#include "Bill_m.h"
+﻿#include "Bill.h"
 #include<vector>
 #include <fstream>
 #include <string>
@@ -15,6 +15,7 @@ void File_Output(vector<Bill*>&t);//Сохранение в файл
 void Exit(vector<Bill*>&t);//Выход из приложения
 bool Change_By_Date(vector<Bill*>&t);//Изминение данных по дате
 void Clear(vector<Bill*>&t);// Очистка
+void Sort(vector<Bill*>&t);
 int count = 0;
 
 int main()
@@ -28,11 +29,11 @@ int main()
 		std::cout << "1.Ввод с консоли.\n"
 			<< "2.Вывод на  консоль.\n"
 			<< "3.Ввод из  файла.\n"
-			<< "4.Вывод в  файл.\n"
+			<< "4.Сохранение в  файл.\n"
 			<< "5.Изменение по дате\n"
+			<< "6.Сортировка\n"
 			<< "100.Выход.\n"
 			<< ": ";
-
 		cin >> input;
 		switch (input) //Начало отработки меню
 		{
@@ -45,7 +46,7 @@ int main()
 		case 3://Ввод из файла
 			File_Input(tax);
 			break;
-		case 4://Вывод в файл
+		case 4://Сохранение в файл
 			File_Output(tax);
 			break;
 		case 5://Изменение по дате
@@ -53,6 +54,9 @@ int main()
 				std::cout << "Успешно изменено.\n";
 			else
 				std::cout << "Не изменено.\n";
+			break;
+		case 6://Сортировка
+			Sort(tax);
 			break;
 		case 100:
 			Exit(tax);
@@ -316,4 +320,28 @@ void Exit(vector<Bill*>&t)
 		}
 
 	}
+}
+void Sort(vector<Bill*>&t)
+{
+	for (int i = t.size() - 1; i > 0; i--)
+	{
+		if (t[i]->date < t[i - 1]->date)
+		{
+			Bill* ptr = t[i];
+			t[i] = t[i - 1];
+			t[i - 1] = ptr;
+		}
+	}
+	for (int i = 2; i < t.size(); i++)
+	{
+		int j = i;
+		Bill* comp = t[j];
+		while (comp->date < t[j - 1]->date)
+		{
+			t[j] = t[j - 1];
+			j--;
+		}
+		t[j] = comp;
+	}
+	std::cout << "Файл отсортирован\n";
 }
