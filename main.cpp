@@ -6,16 +6,21 @@ using std::cout;
 using std::cin;
 using std::vector;
 
-
+//Функции управления(main)
 void Console_Input(vector<Bill*>&t); //Консольный Ввод
 void Main_Console_Output(vector<Bill*>&t);//Консольный Вывод
-void Type_Console_Output(vector<Bill*>&t);//Вывод на консоль по типу данных
 void File_Input(vector<Bill*>&t);//Ввод из файла
 void File_Output(vector<Bill*>&t);//Сохранение в файл
 void Exit(vector<Bill*>&t);//Выход из приложения
 bool Change_By_Date(vector<Bill*>&t);//Изминение данных по дате
+void Sort(vector<Bill*>&t);//Функция выполняющая сортировки
+//Алгоритмы сортировки
+void Sort_Ascending(vector<Bill*>&t);//Сортировка по убыванию
+void Descending_Sort(vector<Bill*>&t);//Сортировка по возрастанию
+//Вспомогательный функции
 void Clear(vector<Bill*>&t);// Очистка
-void Sort(vector<Bill*>&t);
+void Type_Console_Output(vector<Bill*>&t);//Вывод на консоль по типу данных
+
 int count = 0;
 
 int main()
@@ -34,7 +39,13 @@ int main()
 			<< "6.Сортировка\n"
 			<< "100.Выход.\n"
 			<< ": ";
-		cin >> input;
+		if (!(cin >> input))
+		{
+			cin.clear();
+			cin.get();
+			cout << "Не корректный ввод.\n";
+			continue;
+		}
 		switch (input) //Начало отработки меню
 		{
 		case 1://Ввод с консоли
@@ -58,7 +69,7 @@ int main()
 		case 6://Сортировка
 			Sort(tax);
 			break;
-		case 100:
+		case 100://Выход
 			Exit(tax);
 			return 0;
 		default:
@@ -73,7 +84,7 @@ void Console_Input(vector<Bill*>&t)
 {
 	char type_of_bill;
 	int quantity;
-	cout << "Введите тип налога e - эллектричество j - ЖКХ.\n"
+	cout << "Введите тип налога e(E) - эллектричество, j(J) - ЖКХ(q,Q -отмена ввода.\n"
 		<< ": ";
 	cin >> type_of_bill;
 	switch (type_of_bill) //Обработка типа налогов
@@ -98,6 +109,13 @@ void Console_Input(vector<Bill*>&t)
 			t[count++]->Create();//Добавление файлов с консоли
 		}
 		break;
+	case 'q':case 'Q':
+		std::cout << "Отмена ввода\n";
+		break;
+	default:
+		std::cout << "Неверный ввод\n";
+		break;
+
 	}
 }
 void Main_Console_Output(vector<Bill*>&t)
@@ -153,14 +171,19 @@ void File_Input(vector<Bill*>&t)
 	std::string file_name, read_line; //Переменные для имени файла и строки
 	std::ifstream fin;
 	cin.get();
-	std::cout << "Введите название файла\n"
+	std::cout << "Введите название файла или quit для отмены считывания\n"
 		<< ": ";
 	std::getline(std::cin, file_name);
+	if (file_name == "quit")
+	{
+		std::cout << "Отменна ввода\n";
+		return;
+	}
 	fin.open(file_name);
 	if (!fin.is_open())
 	{
 		std::cout << "Невозможно открыть файл\n";
-		exit(EXIT_FAILURE);
+		return;
 	}
 	while (getline(fin, read_line))
 	{
@@ -183,9 +206,14 @@ void File_Output(vector<Bill*>&t)
 	std::string file_name;
 	char check_ch, chose;
 	cin.get();
-	std::cout << "Введите название файла\n"
+	std::cout << "Введите название файла или quit для отмены сохранения\n"
 		<< ": ";
 	std::getline(std::cin, file_name);
+	if (file_name == "quit")
+	{
+		std::cout << "Отменна ввода\n";
+		return;
+	}
 	std::ifstream f_check(file_name); //Используется для проверки на существование файла
 	std::ofstream clear; //Используется для очистки файлов
 	if (f_check.is_open()) //Проверка на существование 
@@ -199,11 +227,11 @@ void File_Output(vector<Bill*>&t)
 			cin >> chose;
 			switch (chose)
 			{
-			case 'a':case'A':
+			case 'a':case'A'://Добавить новую информацию к уже существующей 
 				for (int i = 0; i < count; i++)
 					t[i]->Save(file_name);
 				break;
-			case 'r':case'R':
+			case 'r':case'R'://Перезаписать файл
 				clear.open(file_name);
 				clear.close();
 				clear.open("Val" + file_name);
@@ -236,12 +264,18 @@ bool Change_By_Date(vector<Bill*>&t)
 	int chose;
 	char type_of_bill;
 	auto ptr = t.begin(); // Указатель на перый элемент вектора
-	std::cout << "Что вы хотите изменить?\n"
+	std::cout << "Что вы хотите изменить(введите любой символ для отмены)?\n"
 		<< "1.Данные счета(дата,сумма оплаты,задолженность)\n"
 		<< "2.Тип счета\n"
 		<< "3.Удалить счет\n"
 		<< ": ";
-	cin >> chose;
+	if (!(cin >> chose) || chose > 3)//Проверка ввода
+	{
+		cin.clear();
+		cin.get();
+		std::cout << "Отмена редактирования\n";
+		return false;
+	}
 	std::cout << "Введите дату счета, который хотите изменить\n";
 	cin >> check_date;
 	cin.get();
@@ -321,27 +355,74 @@ void Exit(vector<Bill*>&t)
 
 	}
 }
-void Sort(vector<Bill*>&t)
+void Sort_Ascending(vector<Bill*>&t)
 {
 	for (int i = t.size() - 1; i > 0; i--)
-	{
 		if (t[i]->date < t[i - 1]->date)
 		{
 			Bill* ptr = t[i];
 			t[i] = t[i - 1];
 			t[i - 1] = ptr;
 		}
-	}
 	for (int i = 2; i < t.size(); i++)
 	{
 		int j = i;
-		Bill* comp = t[j];
-		while (comp->date < t[j - 1]->date)
+		Bill* ptr = t[j];
+		while (ptr->date < t[j - 1]->date)
 		{
 			t[j] = t[j - 1];
 			j--;
 		}
-		t[j] = comp;
+		t[j] = ptr;
 	}
-	std::cout << "Файл отсортирован\n";
+	std::cout << "Файл отсортирован по возрастанию\n";
+}
+void Descending_Sort(vector<Bill*>&t)
+{
+	for (int i = t.size() - 1; i > 0; i--)
+		if (t[i]->date > t[i - 1]->date)
+		{
+			Bill* ptr = t[i];
+			t[i] = t[i - 1];
+			t[i - 1] = ptr;
+		}
+	for (int i = 2; i < t.size(); i++)
+	{
+		int j = i;
+		Bill*ptr = t[j];
+		while (ptr > t[j - 1])
+		{
+			t[j] = t[j - 1];
+			j--;
+		}
+		t[j] = ptr;
+	}
+	std::cout << "Файл отсортирован по убыванию\n";
+}
+void Sort(vector<Bill*>&t)
+{
+	if (t.size() < 1)
+	{
+		cout << "Нечего сортировать.\n";
+		return;
+	}
+	cout << "Как отсортировать файл?\n"
+		<< "1.Сортировка по убыванию.\n"
+		<< "2.Сортировка по возрастанию.\n"
+		<< ": ";
+	int chose;
+	cin >> chose;
+	switch (chose)
+	{
+	case 1:
+		Sort_Ascending(t);
+		break;
+	case 2:
+		Descending_Sort(t);
+		break;
+	default:
+		cout << "Выбран неверный номер.\n";
+		break;
+	}
+
 }

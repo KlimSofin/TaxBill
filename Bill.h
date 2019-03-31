@@ -61,6 +61,11 @@ public:
 			return false;
 
 		}
+		friend bool operator>(const Date & obj_one, const Date & obj_two)
+		{
+			return obj_two < obj_one;
+
+		}
 	} date;
 	Bill(double cpaid = 0.0, double cdebt = 0.0, const Date& cdate = Date(), const string& cname = "No name") :name(cname), paid(cpaid), debt(cdebt), date(cdate) {}
 	friend std::ostream& operator<<(std::ostream& out, const Bill &);
