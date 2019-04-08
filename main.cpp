@@ -4,6 +4,7 @@
 #include <string>
 using std::cout;
 using std::cin;
+using std::endl;
 using std::vector;
 
 //Функции управления(main)
@@ -84,38 +85,36 @@ void Console_Input(vector<Bill*>&t)
 {
 	char type_of_bill;
 	int quantity;
-	cout << "Введите тип налога e(E) - эллектричество, j(J) - ЖКХ(q,Q -отмена ввода.\n"
+	cout << "Введите колличество счетов, которое планируется ввести.\n"
 		<< ": ";
-	cin >> type_of_bill;
-	switch (type_of_bill) //Обработка типа налогов
+	cin >> quantity;
+	while (quantity != 0)
 	{
-	case 'e':case 'E':
-		cout << "Введите колличество счетов, которое планируется ввести.\n"
+
+		cout << "Введите тип налога e(E) - эллектричество, j(J) - ЖКХ(q,Q -отмена ввода.\n"
 			<< ": ";
-		cin >> quantity;
-		for (int i = 0; i < quantity; i++)
+		cin >> type_of_bill;
+		switch (type_of_bill) //Обработка типа налогов
+
 		{
+		case 'e':case 'E':
 			t.push_back(new Electricity_Bill());
 			t[count++]->Create(); //Добавление файлов с консоли
-		}
-		break;
-	case 'j':case 'J':
-		cout << "Введите колличество счетов, которое планируется ввести.\n"
-			<< ": ";
-		cin >> quantity;
-		for (int i = 0; i < quantity; i++)
-		{
+			quantity--;
+			break;
+		case 'j':case 'J':
 			t.push_back(new JKH());
 			t[count++]->Create();//Добавление файлов с консоли
-		}
-		break;
-	case 'q':case 'Q':
-		std::cout << "Отмена ввода\n";
-		break;
-	default:
-		std::cout << "Неверный ввод\n";
-		break;
+			quantity--;
+			break;
+		case 'q':case 'Q':
+			std::cout << "Отмена ввода\n";
+			return;
+		default:
+			std::cout << "Неверный ввод\n";
+			break;
 
+		}
 	}
 }
 void Main_Console_Output(vector<Bill*>&t)
@@ -281,7 +280,14 @@ bool Change_By_Date(vector<Bill*>&t)
 	cin.get();
 	for (; ptr != t.end(); ptr++)
 		if ((*ptr)->date == check_date)// определяем нужный нам счет
-			break;
+		{
+			(*ptr)->Output();
+			cout << "Вы хотите изменить этот счет(y/n)\n";
+			char chose;
+			cin >> chose;
+			if (chose == 'y')
+				break;
+		}
 	if (ptr == t.end())
 		return false;
 
@@ -357,13 +363,17 @@ void Exit(vector<Bill*>&t)
 }
 void Sort_Ascending(vector<Bill*>&t)
 {
+
 	for (int i = t.size() - 1; i > 0; i--)
+	{
 		if (t[i]->date < t[i - 1]->date)
 		{
+
 			Bill* ptr = t[i];
 			t[i] = t[i - 1];
 			t[i - 1] = ptr;
 		}
+	}
 	for (int i = 2; i < t.size(); i++)
 	{
 		int j = i;
@@ -390,7 +400,7 @@ void Descending_Sort(vector<Bill*>&t)
 	{
 		int j = i;
 		Bill*ptr = t[j];
-		while (ptr > t[j - 1])
+		while (ptr->date > t[j - 1]->date)
 		{
 			t[j] = t[j - 1];
 			j--;
@@ -415,10 +425,10 @@ void Sort(vector<Bill*>&t)
 	switch (chose)
 	{
 	case 1:
-		Sort_Ascending(t);
+		Descending_Sort(t);
 		break;
 	case 2:
-		Descending_Sort(t);
+		Sort_Ascending(t);
 		break;
 	default:
 		cout << "Выбран неверный номер.\n";
