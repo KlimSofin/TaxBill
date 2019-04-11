@@ -14,10 +14,13 @@ void File_Input(vector<Bill*>&t);//Ввод из файла
 void File_Output(vector<Bill*>&t);//Сохранение в файл
 void Exit(vector<Bill*>&t);//Выход из приложения
 bool Change_By_Date(vector<Bill*>&t);//Изминение данных по дате
-void Sort(vector<Bill*>&t);//Функция выполняющая сортировки
+void Sort(vector<Bill*>&t, int l, int r);//Функция выполняющая сортировки
 //Алгоритмы сортировки
-void Sort_Ascending(vector<Bill*>&t);//Сортировка по убыванию
+void Sort_Ascending(vector<Bill*>&t, int l, int r);//Сортировка по убыванию
 void Descending_Sort(vector<Bill*>&t);//Сортировка по возрастанию
+int partition(vector<Bill*>&t, int l, int r);
+int rand_chose(vector<Bill*>&t, int l, int r);
+void Quick_Sort_Ascending(vector<Bill*>&t, int l, int r);
 //Вспомогательный функции
 void Clear(vector<Bill*>&t);// Очистка
 void Type_Console_Output(vector<Bill*>&t);//Вывод на консоль по типу данных
@@ -68,7 +71,7 @@ int main()
 				std::cout << "Не изменено.\n";
 			break;
 		case 6://Сортировка
-			Sort(tax);
+			Sort(tax, 0, tax.size() - 1);
 			break;
 		case 100://Выход
 			Exit(tax);
@@ -80,7 +83,7 @@ int main()
 	}
 	return 0;
 }
-
+//Функции управления(main)
 void Console_Input(vector<Bill*>&t)
 {
 	char type_of_bill;
@@ -331,6 +334,7 @@ bool Change_By_Date(vector<Bill*>&t)
 	}
 	return false;
 }
+//Вспомогательный функции
 void Clear(vector<Bill*>&t)
 {
 	for (auto &i : t)
@@ -361,20 +365,18 @@ void Exit(vector<Bill*>&t)
 
 	}
 }
-void Sort_Ascending(vector<Bill*>&t)
+//Алгоритмы сортировки
+void Sort_Ascending(vector<Bill*>&t, int l, int r)
 {
 
-	for (int i = t.size() - 1; i > 0; i--)
-	{
+	for (int i = r; i > 0; i--)
 		if (t[i]->date < t[i - 1]->date)
 		{
-
 			Bill* ptr = t[i];
 			t[i] = t[i - 1];
 			t[i - 1] = ptr;
 		}
-	}
-	for (int i = 2; i < t.size(); i++)
+	for (int i = l + 2; i <= r; i++)
 	{
 		int j = i;
 		Bill* ptr = t[j];
@@ -385,7 +387,6 @@ void Sort_Ascending(vector<Bill*>&t)
 		}
 		t[j] = ptr;
 	}
-	std::cout << "Файл отсортирован по возрастанию\n";
 }
 void Descending_Sort(vector<Bill*>&t)
 {
@@ -409,7 +410,50 @@ void Descending_Sort(vector<Bill*>&t)
 	}
 	std::cout << "Файл отсортирован по убыванию\n";
 }
-void Sort(vector<Bill*>&t)
+int partition(vector<Bill*>&t, int l, int r)
+{
+	int i = l - 1, j = r;
+	Bill*ptr = t[r];
+	while (true)
+	{
+		while (t[++i]->date < ptr->date);
+		while (t[--j]->date > ptr->date)
+		{
+			if (j == 1)
+				break;
+		}
+		if (i >= j) break;
+		Bill* swap_ptr = t[i];
+		t[i] = t[j];
+		t[j] = swap_ptr;
+	}
+	Bill* swap_ptr = t[i];
+	t[i] = t[r];
+	t[r] = swap_ptr;
+	return i;
+}
+int rand_chose(vector<Bill*>&t, int l, int r)
+{
+	int ra = rand() % (r - l + 1) + l;
+	Bill* swap_ptr = t[ra];
+	t[ra] = t[r];
+	t[r] = swap_ptr;
+	return partition(t, l, r);
+}
+void Quick_Sort_Ascending(vector<Bill*>&t, int l, int r)
+{
+	if (r - l <= 10) {
+		Sort_Ascending(t, l, r);
+
+		return;
+	}
+	int i = rand_chose(t, l, r);
+	Quick_Sort_Ascending(t, l, i - 1);
+	Quick_Sort_Ascending(t, i + 1, r);
+
+
+}
+void Sort(vector<Bill*>&t, int l, int r)
 {
 	if (t.size() < 1)
 	{
@@ -428,7 +472,7 @@ void Sort(vector<Bill*>&t)
 		Descending_Sort(t);
 		break;
 	case 2:
-		Sort_Ascending(t);
+		Quick_Sort_Ascending(t, l, r);
 		break;
 	default:
 		cout << "Выбран неверный номер.\n";
