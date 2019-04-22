@@ -17,7 +17,7 @@ bool Change_By_Date(vector<Bill*>&t);//Изминение данных по да
 void Sort(vector<Bill*>&t, int l, int r);//Функция выполняющая сортировки
 //Алгоритмы сортировки
 void Sort_Ascending(vector<Bill*>&t, int l, int r);//Сортировка по убыванию
-void Descending_Sort(vector<Bill*>&t);//Сортировка по возрастанию
+void Descending_Sort(vector<Bill*>&t, int l, int r);//Сортировка по возрастанию
 int partition(vector<Bill*>&t, int l, int r);
 int rand_chose(vector<Bill*>&t, int l, int r);
 void Quick_Sort_Ascending(vector<Bill*>&t, int l, int r);
@@ -366,10 +366,11 @@ void Exit(vector<Bill*>&t)
 	}
 }
 //Алгоритмы сортировки
-void Sort_Ascending(vector<Bill*>&t, int l, int r)
+
+void Sort_Ascending(vector<Bill*>&t, int l, int r)//Сортировка по возрастанию
 {
 
-	for (int i = r; i > 0; i--)
+	for (int i = r; i > l; i--)
 		if (t[i]->date < t[i - 1]->date)
 		{
 			Bill* ptr = t[i];
@@ -388,16 +389,17 @@ void Sort_Ascending(vector<Bill*>&t, int l, int r)
 		t[j] = ptr;
 	}
 }
-void Descending_Sort(vector<Bill*>&t)
+void Descending_Sort(vector<Bill*>&t, int l, int r)//Сортировка по убыванию
+
 {
-	for (int i = t.size() - 1; i > 0; i--)
+	for (int i = r; i > l; i--)
 		if (t[i]->date > t[i - 1]->date)
 		{
 			Bill* ptr = t[i];
 			t[i] = t[i - 1];
 			t[i - 1] = ptr;
 		}
-	for (int i = 2; i < t.size(); i++)
+	for (int i = l + 2; i <= r; i++)
 	{
 		int j = i;
 		Bill*ptr = t[j];
@@ -408,8 +410,8 @@ void Descending_Sort(vector<Bill*>&t)
 		}
 		t[j] = ptr;
 	}
-	std::cout << "Файл отсортирован по убыванию\n";
 }
+//Быстрая сортировка по возрастанию
 int partition(vector<Bill*>&t, int l, int r)
 {
 	int i = l - 1, j = r;
@@ -444,14 +446,36 @@ void Quick_Sort_Ascending(vector<Bill*>&t, int l, int r)
 {
 	if (r - l <= 10) {
 		Sort_Ascending(t, l, r);
-
 		return;
 	}
 	int i = rand_chose(t, l, r);
 	Quick_Sort_Ascending(t, l, i - 1);
 	Quick_Sort_Ascending(t, i + 1, r);
-
-
+}
+//Сортировка слиянием по убыванию
+void merge(vector<Bill*>&t, int l, int m, int r)
+{
+	static Bill* aux[1000];
+	int i, j;
+	for (i = m + 1; i > l; i--) aux[i - 1] = t[i - 1];
+	for (j = m; j < r; j++)aux[r + m - j] = t[j + 1];
+	for (int k = l; k <= r; k++)
+		if (aux[i] < aux[j])
+			t[k] = aux[j--];
+		else
+			t[k] = aux[i++];
+}
+void Merge_Sort_Descending(vector<Bill*>&t, int l, int r)
+{
+	if (r - l <= 10)
+	{
+		Descending_Sort(t, l, r);
+		return;
+	}
+	int m = (r + l) / 2;
+	Merge_Sort_Descending(t, l, m);
+	Merge_Sort_Descending(t, m + 1, r);
+	merge(t, l, m, r);
 }
 void Sort(vector<Bill*>&t, int l, int r)
 {
@@ -469,10 +493,12 @@ void Sort(vector<Bill*>&t, int l, int r)
 	switch (chose)
 	{
 	case 1:
-		Descending_Sort(t);
+		Merge_Sort_Descending(t, l, r);
+		cout << "Отсортировано по убыванию\n";
 		break;
 	case 2:
 		Quick_Sort_Ascending(t, l, r);
+		cout << "Отсортировано по возрастанию\n";
 		break;
 	default:
 		cout << "Выбран неверный номер.\n";

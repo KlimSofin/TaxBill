@@ -146,6 +146,3 @@ std::ostream& operator<<(std::ostream& out, const JKH & obj)
 	return out;
 }
 ////////////////////////////////////////////
-
-
-
